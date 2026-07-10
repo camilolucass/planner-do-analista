@@ -8,8 +8,8 @@ Painel de planejamento e acompanhamento de tarefas para analistas — visão do 
 
 - **Frontend:** HTML, CSS e JavaScript puros (`public/`), sem build step.
 - **API:** funções serverless da Vercel (`api/`), Node.js.
-- **Banco:** Postgres via [Supabase](https://supabase.com) (`lib/supabase.js`), acessado só no servidor com a `service_role` key.
-- **Deploy:** Vercel, com deploy automático a cada push na branch `master`.
+- **Banco:** Postgres via [Supabase](https://supabase.com) (`lib/supabase.js`).
+- **Deploy:** Vercel.
 
 ## Funcionalidades
 
@@ -28,27 +28,3 @@ lib/            Cliente Supabase e helpers de autenticação/sessão
 public/         Frontend estático (index.html, styles.css, app.js)
 ```
 
-## Rodando localmente
-
-Pré-requisitos: Node.js e a [Vercel CLI](https://vercel.com/docs/cli) (`npx vercel`).
-
-1. Copie `.env.example` para `.env.local` e preencha `SUPABASE_SERVICE_ROLE_KEY` (pegue no painel do Supabase, em Project Settings → API).
-2. Instale as dependências:
-   ```
-   npm install
-   ```
-3. Suba o ambiente local (roda o frontend estático + as funções da API juntos):
-   ```
-   npx vercel dev
-   ```
-
-## Variáveis de ambiente
-
-| Nome | Descrição |
-|---|---|
-| `SUPABASE_URL` | URL do projeto Supabase. |
-| `SUPABASE_SERVICE_ROLE_KEY` | Chave `service_role` do Supabase — **secreta**, nunca commitar. Usada só nas funções server-side. |
-
-## Deploy
-
-O projeto Vercel (`cockpit-servidor`) está conectado a este repositório: todo push na branch `master` gera um deploy automático de produção. Pull requests geram deploys de preview.

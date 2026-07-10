@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cockpit do Analista</title>
+<script>
+(function(){
+  try{
+    var t = localStorage.getItem('cockpit-tema');
+    if(t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t);
+  }catch(e){}
+})();
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- SPRITE DE ÍCONES (SVG, sem dependência externa) -->
+<svg aria-hidden="true" style="position:absolute;width:0;height:0;overflow:hidden">
+  <symbol id="ic-swap" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m17 2 4 4-4 4"/><path d="M3 11v-1a4 4 0 0 1 4-4h14"/><path d="m7 22-4-4 4-4"/><path d="M21 13v1a4 4 0 0 1-4 4H3"/></symbol>
+  <symbol id="ic-key" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z"/><circle cx="16.5" cy="7.5" r=".6" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="ic-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/></symbol>
+  <symbol id="ic-trending" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></symbol>
+  <symbol id="ic-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
+  <symbol id="ic-alert" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></symbol>
+  <symbol id="ic-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></symbol>
+  <symbol id="ic-check-circle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.801 10A10 10 0 1 1 17 3.335"/><path d="m9 11 3 3L22 4"/></symbol>
+  <symbol id="ic-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></symbol>
+  <symbol id="ic-download" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></symbol>
+  <symbol id="ic-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></symbol>
+  <symbol id="ic-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></symbol>
+  <symbol id="ic-trash" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></symbol>
+  <symbol id="ic-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></symbol>
+  <symbol id="ic-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></symbol>
+  <symbol id="ic-eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"/><circle cx="12" cy="12" r="3"/></symbol>
+  <symbol id="ic-eye-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.733 5.076a10.744 10.744 0 0 1 11.205 6.575 1 1 0 0 1 0 .696 10.747 10.747 0 0 1-1.444 2.49"/><path d="M14.084 14.158a3 3 0 0 1-4.242-4.242"/><path d="M17.479 17.499a10.75 10.75 0 0 1-15.417-5.151 1 1 0 0 1 0-.696 10.75 10.75 0 0 1 4.446-5.143"/><path d="m2 2 20 20"/></symbol>
+  <symbol id="ic-bulb" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1.3.5 2.6 1.5 3.5.8.8 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></symbol>
+  <symbol id="ic-hoje" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4.3"/><path d="M12 2.7v2.6M12 18.7v2.6M21.3 12h-2.6M5.3 12H2.7"/></symbol>
+  <symbol id="ic-kanban" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="5" height="16" rx="1.5"/><rect x="9.5" y="4" width="5" height="11" rx="1.5"/><rect x="16" y="4" width="5" height="14" rx="1.5"/></symbol>
+</svg>
+
+<!-- OVERLAY: login / cadastro de analista -->
+<div class="overlay" id="overlaySelecao">
+  <div class="login-split">
+    <div class="login-brand">
+      <div class="login-blob b1"></div>
+      <div class="login-blob b2"></div>
+      <div class="login-blob b3"></div>
+      <div class="login-brand-content">
+        <div class="login-mark">
+          <div class="login-ring r1"></div>
+          <div class="login-ring r2"></div>
+          <svg width="86" height="86" viewBox="0 0 200 200" fill="none">
+            <circle cx="100" cy="100" r="93" stroke="#fff" stroke-width="1.6" opacity=".55"/>
+            <circle cx="100" cy="100" r="60" stroke="#fff" stroke-width="1.1" opacity=".4"/>
+            <g class="login-mark-spin">
+              <g fill="#fff" opacity=".55">
+                <polygon points="100,100 113.5,82.5 132,68 116.5,86.5"/>
+                <polygon points="100,100 117.5,113.5 132,132 113.5,116.5"/>
+                <polygon points="100,100 86.5,117.5 68,132 82.5,113.5"/>
+                <polygon points="100,100 82.5,86.5 68,68 86.5,82.5"/>
+              </g>
+              <g fill="#fff">
+                <polygon points="100,100 94.5,50 100,10 105.5,50"/>
+                <polygon points="100,100 150,94.5 190,100 150,105.5"/>
+                <polygon points="100,100 94.5,150 100,190 105.5,150"/>
+                <polygon points="100,100 50,94.5 10,100 50,105.5"/>
+              </g>
+            </g>
+            <circle cx="100" cy="100" r="6.5" fill="#fff"/>
+          </svg>
+        </div>
+        <h1>Planejamento do Analista</h1>
+        <p>Organize suas tarefas e acompanhe suas metas.</p>
+      </div>
+    </div>
+    <div class="login-form-wrap">
+      <div class="login-form-card">
+        <div id="etapaLogin">
+          <h2>Bem-vindo de volta</h2>
+          <p class="login-sub">Entre para abrir seu painel.</p>
+          <label class="campo-rotulo">Quem é você?</label>
+          <select id="selAnalista" aria-label="Selecione seu nome"></select>
+          <div class="campo-senha">
+            <input type="password" id="senhaLogin" placeholder="Sua senha" autocomplete="current-password">
+            <button type="button" class="btn-olho" data-toggle-senha="senhaLogin" aria-label="Mostrar senha">
+              <svg class="icon icon-sm"><use href="#ic-eye"></use></svg>
+            </button>
+          </div>
+          <p class="erro-login" id="erroLogin" hidden role="alert"></p>
+          <button class="btn primario" id="btnEntrar">Entrar</button>
+
+          <div class="ou">ou cadastre-se</div>
+          <input id="novoAnalistaNome" placeholder="Seu nome" autocomplete="name">
+          <div class="campo-senha">
+            <input type="password" id="novoAnalistaSenha" placeholder="Crie uma senha (mín. 4 caracteres)" autocomplete="new-password">
+            <button type="button" class="btn-olho" data-toggle-senha="novoAnalistaSenha" aria-label="Mostrar senha">
+              <svg class="icon icon-sm"><use href="#ic-eye"></use></svg>
+            </button>
+          </div>
+          <button class="btn" id="btnCadastrar">Cadastrar e entrar</button>
+        </div>
+
+        <div id="etapaDefinirSenha" hidden>
+          <h2>Definir senha</h2>
+          <p class="login-sub">Este analista ainda não tem senha. Defina uma agora:</p>
+          <div class="campo-senha">
+            <input type="password" id="senhaNova1" placeholder="Nova senha" autocomplete="new-password">
+            <button type="button" class="btn-olho" data-toggle-senha="senhaNova1" aria-label="Mostrar senha">
+              <svg class="icon icon-sm"><use href="#ic-eye"></use></svg>
+            </button>
+          </div>
+          <button class="btn primario" id="btnDefinirSenha">Salvar senha e entrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="app-shell">
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="marca">
+      <span class="logo-mark"><svg class="icon icon-sm"><use href="#ic-check"></use></svg></span>
+      <div class="marca-txt"><div>Cockpit</div><span>do Analista</span></div>
+    </div>
+
+    <div class="menu-rotulo">MENU</div>
+    <nav class="nav-lateral">
+      <button class="aba ativa" data-aba="hoje" aria-current="page">
+        <svg class="icon"><use href="#ic-hoje"></use></svg>
+        <span>Hoje</span>
+        <span class="badge-alerta" id="badgeHoje" hidden></span>
+      </button>
+      <button class="aba" data-aba="kanban">
+        <svg class="icon"><use href="#ic-kanban"></use></svg>
+        <span>Kanban</span>
+      </button>
+      <button class="aba" data-aba="historico">
+        <svg class="icon"><use href="#ic-trending"></use></svg>
+        <span>Histórico</span>
+      </button>
+      <button class="aba" data-aba="equipe">
+        <svg class="icon"><use href="#ic-users"></use></svg>
+        <span>Equipe</span>
+      </button>
+    </nav>
+
+    <div class="termometro-wrap">
+      <div class="termo-info"><span>Meta do mês</span><b id="termoTexto">0 / 0</b></div>
+      <div class="termo-trilho"><div class="termo-fill" id="termoFill"></div></div>
+    </div>
+
+    <div class="sidebar-spacer"></div>
+
+    <div class="usuario-sidebar">
+      <span class="avatar-user" id="avatarUsuario"></span>
+      <span class="usuario-info">
+        <span id="nomeUsuario"></span>
+        <span class="usuario-papel">Analista</span>
+      </span>
+    </div>
+    <div class="usuario-acoes">
+      <button class="btn-icone" id="btnTema" title="Alternar tema claro/escuro" aria-label="Alternar tema claro/escuro">
+        <svg class="icon" id="iconTema"><use href="#ic-moon"></use></svg>
+      </button>
+      <button class="btn-icone" id="btnTrocarSenha" title="Trocar minha senha" aria-label="Trocar minha senha">
+        <svg class="icon"><use href="#ic-key"></use></svg>
+      </button>
+      <button class="btn-icone" id="btnTrocarUsuario" title="Trocar analista" aria-label="Trocar analista">
+        <svg class="icon"><use href="#ic-swap"></use></svg>
+      </button>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <div class="main-area">
+    <header class="topbar">
+      <div class="topbar-titulo">
+        <div class="topbar-titulo-principal" id="tituloPagina">Hoje</div>
+        <div class="topbar-titulo-sub" id="subtituloPagina">Suas tarefas e prioridades do dia</div>
+      </div>
+      <div class="campo-busca topbar-busca">
+        <svg class="icon"><use href="#ic-search"></use></svg>
+        <input id="busca" placeholder="Buscar tarefa…" aria-label="Buscar tarefa">
+      </div>
+      <select id="filtroPrioridade" aria-label="Filtrar por prioridade">
+        <option value="">Todas prioridades</option>
+        <option value="alta">Alta</option>
+        <option value="media">Média</option>
+        <option value="baixa">Baixa</option>
+      </select>
+      <button class="btn" id="btnExportar"><svg class="icon icon-sm"><use href="#ic-download"></use></svg><span>Exportar</span></button>
+      <button class="btn primario" id="btnNovaTarefa"><svg class="icon icon-sm"><use href="#ic-plus"></use></svg><span>Nova tarefa</span></button>
+    </header>
+
+    <main class="ca-scroll">
+
+      <!-- ABA: HOJE -->
+      <section class="painel" id="painelHoje">
+        <div class="indicadores">
+          <div class="ind-card ind-meta">
+            <div class="ind-ring-wrap">
+              <svg width="74" height="74" viewBox="0 0 80 80" class="ind-ring-svg">
+                <circle cx="40" cy="40" r="32" fill="none" stroke="var(--line)" stroke-width="9"/>
+                <circle cx="40" cy="40" r="32" fill="none" stroke="var(--accent)" stroke-width="9" stroke-linecap="round"
+                        stroke-dasharray="201.06" stroke-dashoffset="201.06" id="indMetaRing"/>
+              </svg>
+              <div class="ind-ring-label" id="indMetaPct">0%</div>
+            </div>
+            <div>
+              <div class="ind-label">Meta do mês</div>
+              <div class="ind-num" id="indMetaFrac">0<span> / 0</span></div>
+              <div class="ind-sub">tarefas que contam</div>
+            </div>
+          </div>
+          <div class="ind-card">
+            <span class="ind-icone vermelho"><svg class="icon"><use href="#ic-alert"></use></svg></span>
+            <div class="ind-num" id="indAtrasadas">0</div>
+            <div class="ind-label">Tarefas atrasadas</div>
+          </div>
+          <div class="ind-card">
+            <span class="ind-icone teal"><svg class="icon"><use href="#ic-hoje"></use></svg></span>
+            <div class="ind-num" id="indHoje">0</div>
+            <div class="ind-label">Tarefas de hoje</div>
+          </div>
+          <div class="ind-card">
+            <span class="ind-icone amarelo"><svg class="icon"><use href="#ic-bulb"></use></svg></span>
+            <div class="ind-num" id="indSugestoes">0</div>
+            <div class="ind-label">Sugestões do backlog</div>
+          </div>
+        </div>
+
+        <h3 class="titulo-grupo atrasado"><svg class="icon"><use href="#ic-alert"></use></svg>Atrasadas</h3>
+        <div class="lista-cards" id="listaAtrasadas"></div>
+
+        <h3 class="titulo-grupo"><svg class="icon"><use href="#ic-calendar"></use></svg>Hoje</h3>
+        <div class="lista-cards" id="listaHojeGrupo"></div>
+
+        <h3 class="titulo-grupo"><svg class="icon"><use href="#ic-bulb"></use></svg>Sugestões do backlog</h3>
+        <div class="lista-cards" id="listaSugestoes"></div>
+      </section>
+
+      <!-- ABA: KANBAN -->
+      <section class="painel" id="painelKanban" hidden>
+        <div class="kanban" id="kanban">
+          <div class="coluna" data-coluna="backlog">
+            <h4><span class="coluna-dot"></span>Backlog<span class="coluna-contagem" data-coluna-contagem="backlog">0</span></h4>
+            <div class="drop" data-coluna="backlog"></div>
+          </div>
+          <div class="coluna" data-coluna="semana">
+            <h4><span class="coluna-dot"></span>Planejada na semana<span class="coluna-contagem" data-coluna-contagem="semana">0</span></h4>
+            <div class="drop" data-coluna="semana"></div>
+          </div>
+          <div class="coluna" data-coluna="andamento">
+            <h4><span class="coluna-dot"></span>Em andamento<span class="coluna-contagem" data-coluna-contagem="andamento">0</span></h4>
+            <div class="drop" data-coluna="andamento"></div>
+          </div>
+          <div class="coluna" data-coluna="concluida">
+            <h4><span class="coluna-dot"></span>Concluída<span class="coluna-contagem" data-coluna-contagem="concluida">0</span></h4>
+            <div class="drop" data-coluna="concluida"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ABA: HISTÓRICO -->
+      <section class="painel" id="painelHistorico" hidden>
+        <div class="painel-cartao">
+          <h3>Progresso mensal</h3>
+          <p class="sub-historico">Meta batida x meta do mês, olhando os últimos meses.</p>
+          <div id="graficoHistorico"></div>
+        </div>
+      </section>
+
+      <!-- ABA: EQUIPE -->
+      <section class="painel equipe-wrap" id="painelEquipe" hidden>
+        <h3>Visão da equipe</h3>
+        <div class="lista-equipe" id="listaEquipe"></div>
+      </section>
+
+    </main>
+  </div>
+</div>
+
+<!-- MODAL: criar/editar tarefa -->
+<div class="modal" id="modalTarefa" hidden>
+  <div class="modal-conteudo">
+    <h2 id="modalTitulo">Nova tarefa</h2>
+    <div class="campos">
+      <div class="campo full">
+        <label for="fTitulo">Título</label>
+        <input id="fTitulo" placeholder="Ex: Configurar acesso VPN - Unidade 3">
+      </div>
+      <div class="campo">
+        <label for="fPrioridade">Prioridade</label>
+        <select id="fPrioridade">
+          <option value="alta">Alta</option>
+          <option value="media" selected>Média</option>
+          <option value="baixa">Baixa</option>
+        </select>
+      </div>
+      <div class="campo full">
+        <label for="fDesc">Descrição (opcional)</label>
+        <textarea id="fDesc" placeholder="Contexto, observações, o que precisa pra resolver…"></textarea>
+      </div>
+      <div class="campo">
+        <label for="fSemana">Semana planejada</label>
+        <select id="fSemana">
+          <option value="">— sem semana —</option>
+          <option value="1">Semana 1</option>
+          <option value="2">Semana 2</option>
+          <option value="3">Semana 3</option>
+          <option value="4">Semana 4</option>
+        </select>
+      </div>
+      <div class="campo">
+        <label for="fDia">Dia da semana</label>
+        <select id="fDia">
+          <option value="">— sem dia —</option>
+          <option value="0">Segunda</option><option value="1">Terça</option><option value="2">Quarta</option>
+          <option value="3">Quinta</option><option value="4">Sexta</option>
+        </select>
+      </div>
+      <label class="check-meta full">
+        <input type="checkbox" class="chk" id="fMeta" checked>
+        <span>★ Conta para a Meta do Mês<small>Desmarque para treinamentos, FCOs e tarefas internas que não fecham solicitação.</small></span>
+      </label>
+    </div>
+    <p class="hint-data" id="hintData"></p>
+
+    <div class="sec-passos">
+      <h3>Plano de ação <span id="passosProg"></span></h3>
+      <div class="lista-passos" id="listaPassos"></div>
+      <div class="add-passo">
+        <input id="novoPasso" placeholder="Digite um passo e pressione Enter…" aria-label="Novo passo">
+        <button class="btn" id="btnAddPasso">Adicionar</button>
+      </div>
+    </div>
+
+    <div class="modal-acoes">
+      <button class="btn btn-excluir" id="btnExcluir" hidden><svg class="icon icon-sm"><use href="#ic-trash"></use></svg><span>Excluir</span></button>
+      <button class="btn" data-fechar>Cancelar</button>
+      <button class="btn primario" id="btnSalvarCard">Salvar tarefa</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite">
+  <svg class="icon check"><use href="#ic-check"></use></svg>
+  <span id="toastMsg"></span>
+</div>
+
+<!-- MODAL: trocar minha senha -->
+<div class="modal" id="modalSenha" hidden>
+  <div class="modal-conteudo modal-pequeno">
+    <h2>Trocar minha senha</h2>
+    <div class="campo full">
+      <label for="senhaAtualCampo">Senha atual</label>
+      <div class="campo-senha">
+        <input type="password" id="senhaAtualCampo" autocomplete="current-password">
+        <button type="button" class="btn-olho" data-toggle-senha="senhaAtualCampo" aria-label="Mostrar senha">
+          <svg class="icon icon-sm"><use href="#ic-eye"></use></svg>
+        </button>
+      </div>
+    </div>
+    <div class="campo full">
+      <label for="senhaNovaCampo">Nova senha</label>
+      <div class="campo-senha">
+        <input type="password" id="senhaNovaCampo" placeholder="Mínimo 4 caracteres" autocomplete="new-password">
+        <button type="button" class="btn-olho" data-toggle-senha="senhaNovaCampo" aria-label="Mostrar senha">
+          <svg class="icon icon-sm"><use href="#ic-eye"></use></svg>
+        </button>
+      </div>
+    </div>
+    <p class="erro-login" id="erroSenha" hidden role="alert"></p>
+    <div class="modal-acoes">
+      <button class="btn" data-fechar-senha>Cancelar</button>
+      <button class="btn primario" id="btnSalvarSenha">Salvar nova senha</button>
+    </div>
+  </div>
+</div>
+
+<script src="app.js" defer></script>
+</body>
+</html>

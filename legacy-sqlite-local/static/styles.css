@@ -1,0 +1,131 @@
+:root{
+  --verde:#1F8A55; --verde-esc:#166B41; --vermelho:#D9483C; --amarelo:#D9A62E;
+  --ink:#1C231F; --ink-soft:#5B655E; --line:#E3E8E4; --surface:#FFFFFF; --bg:#F5F7F5;
+  --radius:12px;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'IBM Plex Sans',sans-serif;font-size:14px}
+h1,h2,h3,h4{font-family:'Sora',sans-serif;margin:0}
+button{font-family:inherit;cursor:pointer;border:none}
+input,select,textarea{font-family:inherit;font-size:13px;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:#fff}
+textarea{width:100%;min-height:60px;resize:vertical}
+
+/* topo */
+.topo{display:flex;align-items:center;gap:20px;padding:14px 24px;background:var(--surface);border-bottom:1px solid var(--line)}
+.marca{font-family:'Sora',sans-serif;font-weight:800;font-size:18px}
+.marca span{color:var(--verde);font-weight:600}
+.abas{display:flex;gap:6px;flex:1}
+.aba{padding:8px 16px;border-radius:8px;background:transparent;color:var(--ink-soft);font-weight:600}
+.aba.ativa{background:var(--verde);color:#fff}
+.badge-alerta{display:inline-block;background:var(--vermelho);color:#fff;font-size:11px;font-weight:700;border-radius:99px;padding:1px 7px;margin-left:4px}
+.usuario{display:flex;align-items:center;gap:8px;font-weight:600}
+.btn-icone{background:var(--bg);border-radius:8px;padding:6px 10px}
+
+main{max-width:1100px;margin:0 auto;padding:20px 24px}
+
+/* termômetro */
+.termometro-wrap{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:14px 18px;margin-bottom:18px}
+.termo-info{display:flex;justify-content:space-between;font-size:13px;margin-bottom:8px}
+.termo-trilho{height:12px;background:#E8EDE9;border-radius:99px;overflow:hidden}
+.termo-fill{height:100%;background:var(--verde);width:0%;transition:width .4s}
+
+/* filtros */
+.filtros{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap}
+.filtros input{flex:1;min-width:180px}
+.btn{background:var(--surface);border:1px solid var(--line);padding:9px 14px;border-radius:8px;font-weight:600}
+.btn.primario{background:var(--verde);color:#fff;border-color:var(--verde)}
+.btn.btn-excluir{background:#fff;color:var(--vermelho);border-color:var(--vermelho);margin-right:auto}
+
+.titulo-grupo{margin:18px 0 8px;color:var(--ink-soft);font-size:13px;text-transform:uppercase;letter-spacing:.04em}
+.titulo-grupo.atrasado{color:var(--vermelho)}
+.lista-cards{display:flex;flex-direction:column;gap:8px}
+
+/* card de tarefa */
+.card{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 14px;cursor:pointer;display:flex;flex-direction:column;gap:6px}
+.card:hover{border-color:var(--verde)}
+.card.atrasado{border-left:4px solid var(--vermelho)}
+.card.vence-hoje{border-left:4px solid var(--amarelo)}
+.card .linha1{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.card .tit{font-weight:600;flex:1}
+.card .tit.done{text-decoration:line-through;color:var(--ink-soft)}
+.tag{font-size:11px;padding:2px 8px;border-radius:99px;font-weight:600}
+.tag.alta{background:#FDEBE9;color:var(--vermelho)}
+.tag.media{background:#FDF5E4;color:var(--amarelo)}
+.tag.baixa{background:#EAF4EE;color:var(--verde-esc)}
+.tag.meta{background:#EAF4EE;color:var(--verde-esc)}
+.card .meta-linha{display:flex;gap:10px;font-size:12px;color:var(--ink-soft);font-family:'IBM Plex Mono',monospace}
+.card .dias-atraso{color:var(--vermelho);font-weight:600}
+.vazio{color:var(--ink-soft);font-size:13px;padding:10px 0}
+
+/* kanban */
+.kanban{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.coluna h4{font-size:13px;color:var(--ink-soft);margin-bottom:8px}
+.drop{background:var(--surface);border:1px dashed var(--line);border-radius:10px;padding:8px;min-height:200px;display:flex;flex-direction:column;gap:8px}
+.drop.arrastando-sobre{border-color:var(--verde);background:#F1F8F3}
+.card.arrastando{opacity:.4}
+
+/* equipe */
+.lista-equipe{display:flex;flex-direction:column;gap:10px}
+.eq-card{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 16px}
+.eq-topo{display:flex;justify-content:space-between;font-weight:600;margin-bottom:8px}
+.eq-nums{display:flex;gap:16px;font-size:12px;margin-bottom:8px;font-family:'IBM Plex Mono',monospace}
+.eq-nums .neg b{color:var(--vermelho)}
+.eq-nums .pos b{color:var(--verde)}
+.eq-trilho{height:9px;background:#E8EDE9;border-radius:99px;overflow:hidden}
+.eq-trilho .fill{height:100%;background:var(--verde);transition:width .4s}
+.eq-vazio{border:1.5px dashed var(--line);border-radius:var(--radius);padding:26px;text-align:center;color:var(--ink-soft);font-size:13px;background:var(--surface)}
+
+/* histórico */
+.sub-historico{color:var(--ink-soft);font-size:13px;margin:-6px 0 16px}
+.grafico-barras{display:flex;align-items:flex-end;gap:18px;height:180px;padding:10px 6px;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius)}
+.barra-mes{display:flex;flex-direction:column;align-items:center;gap:6px;flex:1}
+.barra-pct{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--ink-soft)}
+.barra-trilho{width:100%;max-width:34px;height:120px;background:#E8EDE9;border-radius:6px;display:flex;align-items:flex-end;overflow:hidden}
+.barra-fill{width:100%;background:var(--verde);transition:height .4s}
+.barra-fill.baixo{background:var(--vermelho)}
+.barra-fill.medio{background:var(--amarelo)}
+.barra-label{font-size:11px;color:var(--ink-soft)}
+
+/* overlay seleção */
+.overlay{position:fixed;inset:0;background:rgba(28,35,31,.7);display:flex;align-items:center;justify-content:center;z-index:50}
+.box-selecao{background:#fff;border-radius:var(--radius);padding:28px;width:320px;display:flex;flex-direction:column;gap:10px;text-align:center}
+.box-selecao select,.box-selecao input{width:100%}
+.ou{color:var(--ink-soft);font-size:12px;margin-top:6px}
+.erro-login{color:var(--vermelho);font-size:12px;margin:0}
+#etapaLogin,#etapaDefinirSenha{display:flex;flex-direction:column;gap:8px}
+
+/* modal tarefa */
+.modal{position:fixed;inset:0;background:rgba(28,35,31,.5);display:flex;align-items:center;justify-content:center;z-index:40}
+.modal-conteudo{background:#fff;border-radius:var(--radius);padding:24px;width:520px;max-height:88vh;overflow:auto;display:flex;flex-direction:column;gap:12px}
+.modal-conteudo.modal-pequeno{width:340px}
+.campos{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.campo.full{grid-column:1 / -1}
+.campo label{display:block;font-size:12px;color:var(--ink-soft);margin-bottom:4px;font-weight:600}
+.campo select,.campo input,.campo textarea{width:100%}
+.check-meta{display:flex;gap:10px;align-items:flex-start;background:var(--bg);padding:10px;border-radius:8px}
+.check-meta small{display:block;color:var(--ink-soft);font-weight:400}
+.hint-data{font-size:12px;color:var(--ink-soft);margin:0}
+.sec-passos h3{font-size:13px;display:flex;justify-content:space-between}
+.lista-passos{display:flex;flex-direction:column;gap:6px;margin:8px 0}
+.passo{display:flex;align-items:center;gap:8px;font-size:13px}
+.passo span{flex:1}
+.passo.feito span{text-decoration:line-through;color:var(--ink-soft)}
+.passo button{background:none;color:var(--vermelho);font-size:14px}
+.add-passo{display:flex;gap:8px}
+.add-passo input{flex:1}
+.modal-acoes{display:flex;gap:8px;justify-content:flex-end;border-top:1px solid var(--line);padding-top:14px}
+
+/* toast */
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(120%);background:var(--ink);color:#fff;padding:10px 18px;border-radius:99px;display:flex;gap:8px;align-items:center;transition:transform .3s;z-index:60}
+.toast.visivel{transform:translateX(-50%) translateY(0)}
+.toast .check{color:var(--verde);font-weight:700}
+
+@media(max-width:900px){
+  .kanban{grid-template-columns:1fr 1fr}
+  .campos{grid-template-columns:1fr}
+}
+@media(max-width:600px){
+  .kanban{grid-template-columns:1fr}
+  main{padding:14px}
+  .modal-conteudo{width:92vw}
+}

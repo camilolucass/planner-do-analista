@@ -26,7 +26,6 @@ Painel de planejamento e acompanhamento de tarefas para analistas — visão do 
 api/            Rotas serverless (login, analistas, tarefas, histórico, resumo)
 lib/            Cliente Supabase e helpers de autenticação/sessão
 public/         Frontend estático (index.html, styles.css, app.js)
-legacy-sqlite-local/   Versão antiga (SQLite local), mantida só como referência histórica
 ```
 
 ## Rodando localmente
